@@ -15,8 +15,7 @@ source venv/bin/activate
 pip install pip-tools
 # install project dependencies
 pip install -r requirements.txt
-# lastly install our library
-# this will search for the setup.py file
+# lastly install our package
 pip install -e .
 ```
 
