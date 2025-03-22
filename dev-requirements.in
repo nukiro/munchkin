@@ -1,3 +1,6 @@
 # dev-requirements.in
 -c requirements.txt
 pre-commit
+pytest
+pytest-cov
+Faker
