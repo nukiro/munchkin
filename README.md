@@ -97,6 +97,7 @@ bugfix/T-789-fix-header-styling
 hotfix/T-321-security-patch
 release/v2.0.1
 docs/T-654-update-readme
+experimental/package-name
 ```
 
 ### Adding a new library to the project
