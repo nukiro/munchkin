@@ -12,6 +12,7 @@ from munchkin.base.validations import validate_text
 
 
 class Environment(Enum):
+    LOCAL = "local"
     DEV = "development"
     TEST = "test"
     PROD = "production"

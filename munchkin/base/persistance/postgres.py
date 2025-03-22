@@ -28,7 +28,7 @@ class Postgres:
         config: Optional[PostgresConfiguration] = dict(
             host="127.0.0.1",
             port="5432",
-            database="dev",
+            database="munchkin-local",
             username="munchkin",
             password="munchkin",
         ),

@@ -22,6 +22,37 @@ pip install -e .
 ### Database
 
 ```shell
+podman machine init
+podman pull docker.io/postgres:17.3
+# create directory to mount the data directory
+mkdir -p /var/lib/data
+# run the container
+# superuser postgres with password
+podman run \
+    --env POSTGRES_PASSWORD=postgres \
+    --health-cmd="pg_isready -U postgres || exit 1" \
+    --health-interval=1s \
+    --health-timeout=5s \
+    --health-retries=5 \
+    --publish 5432:5432 \
+    --detach \
+    --name dev \
+    docker.io/library/postgres:17.3
+
+# connect to the postgres instance
+PGPASSWORD=postgres psql -h localhost -p 5432 -U postgres
+```
+
+Once you are connected (as super user) to the postgres instance, create a new role, a new database and a new schema if it is necessary.
+
+```shell
+CREATE USER munchkin WITH PASSWORD 'munchkin';
+CREATE DATABASE "munchkin-local";
+ALTER DATABASE "munchkin-local" OWNER TO munchkin;
+CREATE SCHEMA munchkin;
+```
+
+```shell
 # run migrations
 ```
 
