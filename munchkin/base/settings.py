@@ -44,7 +44,7 @@ def build_settings() -> Settings:
     info(f"Package: {package}")
 
     # as default if value is not defined in the .env file
-    env = Environment.DEV
+    env = Environment.LOCAL
     try:
         env = Environment[getenv("ENVIRONMENT").upper()]
     except Exception:

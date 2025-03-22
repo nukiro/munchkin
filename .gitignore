@@ -177,3 +177,5 @@ cython_debug/
 *.db
 
 .vscode
+**/migrations
+**/*.sql
