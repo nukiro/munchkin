@@ -4,5 +4,11 @@
 #
 #    pip-compile requirements.in
 #
+psycopg[binary]==3.2.6
+    # via -r requirements.in
+psycopg-binary==3.2.6
+    # via psycopg
 python-dotenv==1.0.1
     # via -r requirements.in
+typing-extensions==4.12.2
+    # via psycopg
