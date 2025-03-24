@@ -1,2 +1,2 @@
 run:
-	@cd $(APP) && python main.py
+	@cd clients/$(APP) && python main.py

@@ -53,5 +53,6 @@ def build_settings() -> Settings:
         )
 
     info(f"Environment: {env.value}")
+    print()
 
     return dict(package=package, environment=env)

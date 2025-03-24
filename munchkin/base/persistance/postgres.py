@@ -1,10 +1,8 @@
 from logging import info
-from typing import Optional, Self, TypedDict
+from typing import Any, Optional, Self, Sequence, TypedDict
 
-from psycopg import Connection
+from psycopg import Connection, Cursor
 from psycopg import connect as connect_postgres
-
-from munchkin.base.persistance.repository import SqlDictRowFactory
 
 type PostgresConnection = Connection
 
@@ -15,6 +13,14 @@ class PostgresConfiguration(TypedDict):
     database: str
     username: str
     password: str
+
+
+class SqlDictRowFactory:
+    def __init__(self, cursor: Cursor[Any]):
+        self.fields = [c.name for c in cursor.description]
+
+    def __call__(self, values: Sequence[Any]) -> dict[str, Any]:
+        return dict(zip(self.fields, values))
 
 
 class Postgres:
