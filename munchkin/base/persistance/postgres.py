@@ -1,7 +1,10 @@
 from logging import info
-from typing import Any, Optional, Self, Sequence, TypedDict
+from typing import Optional, Self, TypedDict
 
-from psycopg import Connection, Cursor, connect
+from psycopg import Connection
+from psycopg import connect as connect_postgres
+
+from munchkin.base.persistance.repository import SqlDictRowFactory
 
 type PostgresConnection = Connection
 
@@ -12,14 +15,6 @@ class PostgresConfiguration(TypedDict):
     database: str
     username: str
     password: str
-
-
-class DictRowFactory:
-    def __init__(self, cursor: Cursor[Any]):
-        self.fields = [c.name for c in cursor.description]
-
-    def __call__(self, values: Sequence[Any]) -> dict[str, Any]:
-        return dict(zip(self.fields, values))
 
 
 class Postgres:
@@ -34,9 +29,12 @@ class Postgres:
         ),
     ):
         self._config: PostgresConfiguration = config
-        self._conn: PostgresConnection = None
+        self._conn: Optional[PostgresConnection] = None
 
     def connect(self) -> Self:
+        if self._conn:
+            raise ValueError("Database is already connected.")
+
         conn_path = (
             f"postgres://"
             f"{self._config.get('username')}:{self._config.get('password')}"
@@ -47,8 +45,8 @@ class Postgres:
         )
 
         # it will raise an exception if there is any error connecting to the database
-        self._conn = connect(
-            conninfo=conn_path, row_factory=DictRowFactory, autocommit=False
+        self._conn = connect_postgres(
+            conninfo=conn_path, row_factory=SqlDictRowFactory, autocommit=False
         )
 
         info("Configured and connected to the database.")
@@ -56,9 +54,17 @@ class Postgres:
         return self
 
     def disconnect(self):
+        if not self._conn:
+            raise ValueError("There is no active connection.")
+
         self._conn.close()
 
         if not self._conn.closed:
             raise RuntimeError(
                 "The postgres database connection was not closed successfully."
             )
+
+        # clear connection data
+        self._conn = None
+
+        info("Disconnected from Postgres.")
