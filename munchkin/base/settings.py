@@ -7,6 +7,7 @@ from typing import TypedDict
 
 from dotenv import load_dotenv
 
+from munchkin.base.logger import LoggingHandler
 from munchkin.base.logger import configure as configure_logger
 from munchkin.base.validations import validate_text
 
@@ -38,9 +39,28 @@ def build_settings() -> Settings:
 
     load_dotenv(dotenv_path=env_file, verbose=True, override=True)
 
-    debug = _boolean_from_env(getenv("DEBUG"))
-    configure_logger(debug)
+    logging = _boolean_from_env(getenv("LOGGING"))
+    if logging:
+        debug = _boolean_from_env(getenv("LOGGING_DEBUG"))
+        handler = LoggingHandler.STDOUT
+        try:
+            handler = LoggingHandler[getenv("LOGGING_HANDLER").upper()]
+            configure_logger(
+                debug,
+                handler,
+                getenv("LOGGING_FILENAME"),
+            )
+        except Exception:
+            configure_logger(
+                debug,
+                handler,
+                getenv("LOGGING_FILENAME"),
+            )
+            warning(
+                "Logging handler is not defined or it is correctly defined. Default will be set."
+            )
 
+    info("-----")
     package = validate_text("Package Name", getenv("PACKAGE"))
     info(f"Package: {package}")
 

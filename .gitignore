@@ -181,3 +181,4 @@ cython_debug/
 **/*.sql
 
 clients
+**/log*.txt
