@@ -15,6 +15,7 @@ class Environment(Enum):
     LOCAL = "local"
     DEV = "development"
     TEST = "test"
+    INT = "integration"
     PROD = "production"
 
 
