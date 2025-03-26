@@ -1,4 +1,4 @@
-import tkinter as tk
+from tkinter import Tk
 from typing import Optional
 
 from clients.frontend.console.menu import Menu
@@ -20,7 +20,7 @@ def _build_settings() -> Settings:
     return settings
 
 
-class Application(tk.Tk):
+class Application(Tk):
     def __init__(self, settings: Optional[Settings] = _build_settings()):
         # Window setup
         super().__init__()
