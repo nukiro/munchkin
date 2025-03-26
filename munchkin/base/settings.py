@@ -50,17 +50,18 @@ def build_settings() -> Settings:
                 handler,
                 getenv("LOGGING_FILENAME"),
             )
+            info("-----")
         except Exception:
             configure_logger(
                 debug,
                 handler,
                 getenv("LOGGING_FILENAME"),
             )
+            info("-----")
             warning(
                 "Logging handler is not defined or it is correctly defined. Default will be set."
             )
 
-    info("-----")
     package = validate_text("Package Name", getenv("PACKAGE"))
     info(f"Package: {package}")
 
