@@ -1,6 +1,7 @@
 import tkinter as tk
 from typing import Optional
 
+from clients.frontend.console.menu import Menu
 from munchkin.base.settings import Settings as Base
 from munchkin.base.settings import build_settings as build_base
 
@@ -21,11 +22,14 @@ def _build_settings() -> Settings:
 
 class Application(tk.Tk):
     def __init__(self, settings: Optional[Settings] = _build_settings()):
-        # Main window setup
+        # Window setup
         super().__init__()
         self.title(settings.get("package"))
         self.geometry(f"{settings.get('width')}x{settings.get('height')}")
         self.minsize(settings.get("width"), settings.get("height"))
+
+        # Main Window
+        self.configure(menu=Menu(self))
 
     def run(self):
         self.mainloop()
