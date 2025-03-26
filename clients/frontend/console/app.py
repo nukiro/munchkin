@@ -1,6 +1,8 @@
 from tkinter import Tk
+from tkinter.ttk import Label
 from typing import Optional
 
+from clients.frontend.console.cards import Cards
 from clients.frontend.console.menu import Menu
 from munchkin.base.settings import Settings as Base
 from munchkin.base.settings import build_settings as build_base
@@ -14,7 +16,7 @@ class Settings(Base):
 def _build_settings() -> Settings:
     settings = build_base()
 
-    settings["width"] = 600
+    settings["width"] = 1200
     settings["height"] = 800
 
     return settings
@@ -28,8 +30,10 @@ class Application(Tk):
         self.geometry(f"{settings.get('width')}x{settings.get('height')}")
         self.minsize(settings.get("width"), settings.get("height"))
 
-        # Main Window
+        # Main Window UI
         self.configure(menu=Menu(self))
+        Label(self, text="Hello World").pack()
+        self.cards = Cards(self)
 
     def run(self):
         self.mainloop()
