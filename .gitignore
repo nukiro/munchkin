@@ -180,5 +180,5 @@ cython_debug/
 **/migrations
 **/*.sql
 
-clients
+clients/backend
 **/log*.txt
