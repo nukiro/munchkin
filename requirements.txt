@@ -55,6 +55,8 @@ markupsafe==3.0.2
     # via jinja2
 mdurl==0.1.2
     # via markdown-it-py
+pillow==11.1.0
+    # via -r requirements.in
 psycopg[binary]==3.2.6
     # via -r requirements.in
 psycopg-binary==3.2.6
