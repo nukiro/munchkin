@@ -2,6 +2,8 @@ from tkinter import Misc
 from tkinter.ttk import Button, Entry, Frame, Label, Notebook
 from typing import Optional
 
+from PIL import Image, ImageTk
+
 
 class Form:
     @staticmethod
@@ -56,14 +58,15 @@ class Cards(Frame):
         )
         title.grid(row=0, column=0, sticky="new")
 
-        # ti = Label(
-        #     treasure_tab,
-        #     text="HELLOOO",
-        #     foreground="grey",
-        #     background="blue",
-        #     font=("Helvetica", 8),
-        # )
-        # ti.grid(row=0, column=1, sticky="new")
+        image_frame = Frame(treasure_tab)
+
+        image_tk = ImageTk.PhotoImage(Image.open("card.jpg"))
+        label = Label(image_frame, text="card hint", image=image_tk)
+        label.image = image_tk
+        label.pack(expand=True)
+        # label.grid(row=0, column=1, sticky="nsew")
+
+        image_frame.grid(row=0, column=1, sticky="nsew")
 
         # add both tabs and pack
         notebook.add(door_tab, text="Door Cards")
