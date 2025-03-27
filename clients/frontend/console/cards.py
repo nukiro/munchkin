@@ -2,7 +2,7 @@ from tkinter import Misc
 from tkinter.ttk import Button, Entry, Frame, Label, Notebook
 from typing import Optional
 
-from PIL import Image, ImageTk
+from munchkin.ui.image import UIImage
 
 
 class Form:
@@ -60,11 +60,7 @@ class Cards(Frame):
 
         image_frame = Frame(treasure_tab)
 
-        image_tk = ImageTk.PhotoImage(Image.open("card.jpg"))
-        label = Label(image_frame, text="card hint", image=image_tk)
-        label.image = image_tk
-        label.pack(expand=True)
-        # label.grid(row=0, column=1, sticky="nsew")
+        UIImage.base(image_frame, "card.jpg")
 
         image_frame.grid(row=0, column=1, sticky="nsew")
 

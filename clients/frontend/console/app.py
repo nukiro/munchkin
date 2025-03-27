@@ -1,5 +1,4 @@
 from tkinter import Tk
-from tkinter.ttk import Label
 from typing import Optional
 
 from clients.frontend.console.cards import Cards
@@ -32,7 +31,6 @@ class Application(Tk):
 
         # Main Window UI
         self.configure(menu=Menu(self))
-        Label(self, text="Hello World").pack()
         self.cards = Cards(self)
 
     def run(self):

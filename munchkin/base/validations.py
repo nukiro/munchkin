@@ -2,6 +2,13 @@ from enum import Enum
 from typing import Type
 
 
+def validate_exist(field: str, value: any) -> any:
+    value_error = f"{field} must exist"
+
+    if not value:
+        raise ValueError(value_error)
+
+
 def validate_text(field: str, text: str) -> str:
     # error messages
     type_error = f"{field} must be a string"
