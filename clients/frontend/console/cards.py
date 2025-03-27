@@ -2,7 +2,7 @@ from tkinter import Misc
 from tkinter.ttk import Button, Frame, Notebook
 
 from munchkin.ui.container.grid import UIContainerGrid, UIContainerGridHorizontal
-from munchkin.ui.element.form import UIViewForm
+from munchkin.ui.element.form import UIElementFormInput, UIViewForm
 from munchkin.ui.element.image import UIViewImage
 
 
@@ -129,12 +129,16 @@ class TreasureTab(UIContainerGrid):
 
         # Form container on the left
         form_container = Frame(self)
-        UIViewForm.input(form_container, "Name")
-        UIViewForm.input(form_container, "Description", "Card longer text.")
+        name = UIElementFormInput(form_container, "Name").view()
+        description = UIElementFormInput(
+            form_container,
+            "Description",
+            "Card longer text where some indications about the card and its use is written.",
+        ).view()
         Button(
             form_container,
             text="Create Treasure Card",
-            command=lambda: print("Create treasure Card"),
+            command=lambda: print(name.props.get("input"), description.props),
         ).pack()
         # place the container within the tab
         form_container.grid(row=0, column=0, sticky="nsew")
