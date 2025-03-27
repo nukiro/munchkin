@@ -7,11 +7,13 @@ from munchkin.base.validations import validate_exist, validate_text
 
 class UIViewForm:
     @staticmethod
-    def input(master: Misc, label: str, help: Optional[str] = None) -> Frame:
+    def input(
+        master: Misc, label: str, help: Optional[str] = None, space: Optional[int] = 10
+    ) -> Frame:
         validate_exist("master", master)
         validate_text("label", label)
 
-        view = Frame(master)
+        view = Frame(master, pady=space)
 
         Label(view, text=label).pack(fill="x")
         entry = Entry(view)
@@ -25,6 +27,21 @@ class UIViewForm:
             Label(view, text=help, foreground="grey", font=("Helvetica", 8)).pack(
                 fill="x"
             )
+
+        view.pack(fill="x")
+
+        return view
+
+    @staticmethod
+    def skill(master: Misc, space: Optional[int] = 10) -> Frame:
+        validate_exist("master", master)
+
+        view = Frame(master, pady=space)
+        Label(view, text="Skill").pack(fill="x")
+
+        UIViewForm.input(view, "Header", None, 0)
+        UIViewForm.input(view, "Description", None, 0)
+        UIViewForm.input(view, "Action", "From the catalog.", 0)
 
         view.pack(fill="x")
 
