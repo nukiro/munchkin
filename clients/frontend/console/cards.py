@@ -1,5 +1,5 @@
 from tkinter import Misc
-from tkinter.ttk import Button, Entry, Frame, Label
+from tkinter.ttk import Button, Entry, Frame, Label, Notebook
 from typing import Optional
 
 
@@ -25,8 +25,27 @@ class Cards(Frame):
         super().__init__(parent)
 
         # Window UI
-        Form.input(self, "Name")
+        Label(self, text="Create Cards").pack()
 
-        Button(self, text="Create Card", command=lambda: print("Create Card")).pack()
+        # it is composed by two tabs (one per basic card type): door and treasure.
+        notebook = Notebook(self)
+        # door card type
+        door_tab = Frame(notebook)
 
-        self.pack(fill="x")
+        Form.input(door_tab, "Name")
+        Button(
+            door_tab, text="Create Card", command=lambda: print("Create Card")
+        ).pack()
+
+        # treasure card type
+        treasure_tab = Frame(notebook)
+        Label(
+            treasure_tab, text="HELLOOO", foreground="grey", font=("Helvetica", 8)
+        ).pack(fill="x")
+
+        # add both tabs and pack
+        notebook.add(door_tab, text="Door Cards")
+        notebook.add(treasure_tab, text="Treasure Cards")
+        notebook.pack(expand=True, fill="both")
+
+        self.pack(expand=True, fill="both")
