@@ -5,7 +5,7 @@ from typing import Optional
 from munchkin.base.validations import validate_exist, validate_text
 
 
-class UIForm:
+class UIViewForm:
     @staticmethod
     def input(master: Misc, label: str, help: Optional[str] = None) -> Frame:
         validate_exist("master", master)

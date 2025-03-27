@@ -6,7 +6,7 @@ from PIL import Image, ImageTk
 from munchkin.base.validations import validate_exist, validate_text
 
 
-class UIImage:
+class UIViewImage:
     @staticmethod
     def base(master: Misc, image: str) -> Label:
         validate_exist("master", master)

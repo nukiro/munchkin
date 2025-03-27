@@ -3,8 +3,8 @@ from tkinter.ttk import Button, Entry, Frame, Label, Notebook
 from typing import Optional
 
 from munchkin.ui.container.grid import UIContainerGrid
-from munchkin.ui.form import UIForm
-from munchkin.ui.image import UIImage
+from munchkin.ui.view.form import UIViewForm
+from munchkin.ui.view.image import UIViewImage
 
 
 class Form:
@@ -30,8 +30,8 @@ class TreasureTab(UIContainerGrid):
 
         # Form container on the left
         form_container = Frame(self)
-        UIForm.input(form_container, "Name")
-        UIForm.input(form_container, "Description", "Card longer text.")
+        UIViewForm.input(form_container, "Name")
+        UIViewForm.input(form_container, "Description", "Card longer text.")
         Button(
             form_container,
             text="Create Treasure Card",
@@ -43,7 +43,7 @@ class TreasureTab(UIContainerGrid):
         # Image container on the right
         image_container = Frame(self)
         # load treasure example card
-        UIImage.base(image_container, "card.jpg")
+        UIViewImage.base(image_container, "card.jpg")
         # place the container within the tab
         image_container.grid(row=0, column=1, sticky="nsew")
 
