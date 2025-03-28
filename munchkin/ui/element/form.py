@@ -48,6 +48,36 @@ class UIViewForm:
         return view
 
 
+class UIElementFormSkillProps(TypedDict):
+    header: str
+    description: str
+    action: str
+
+
+class UIElementFormSkill(Frame):
+    def __init__(self, master: Misc, label: str, space: Optional[int] = 10):
+        super().__init__(master, pady=space)
+
+        self._label: Label = Label(self, text=label)
+        self._header = UIElementFormInput(self, "Header")
+
+    def view(self) -> Self:
+        self._label.pack(fill="x")
+        self._header.view()
+
+        self.pack(fill="x")
+
+        return self
+
+    @property
+    def props(self) -> UIElementFormSkillProps:
+        return dict(
+            header=self._header.props.get("input"),
+            description="This is the description",
+            action="this is the action",
+        )
+
+
 class UIElementFormInputProps(TypedDict):
     input: str
 
@@ -65,12 +95,12 @@ class UIElementFormInput(Frame):
         self._props_entry = StringVar()
 
         # View
-        self._label_text = label
+        self._label = Label(self, text=label)
         self._help_label_text = help
 
     def view(self) -> Self:
         # some text as a header indicating input variable
-        Label(self, text=self._label_text).pack(fill="x")
+        self._label.pack(fill="x")
         # input, props variable will be assigned
         entry = Entry(self, textvariable=self._props_entry)
         # in case some helping text is passed

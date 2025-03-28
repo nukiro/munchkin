@@ -1,8 +1,15 @@
 from tkinter import Misc
 from tkinter.ttk import Button, Frame, Notebook
+from typing import Self
 
-from munchkin.ui.container.grid import UIContainerGrid, UIContainerGridHorizontal
-from munchkin.ui.element.form import UIElementFormInput, UIViewForm
+from munchkin.ui.container.grid import UIContainerGridHorizontal
+from munchkin.ui.element.form import (
+    UIElementFormInput,
+    UIElementFormInputProps,
+    UIElementFormSkill,
+    UIElementFormSkillProps,
+    UIViewForm,
+)
 from munchkin.ui.element.image import UIViewImage
 
 
@@ -10,16 +17,22 @@ class ClassDoorTab(UIContainerGridHorizontal):
     def __init__(self, master: Misc):
         super().__init__(master)
 
+    @staticmethod
+    def create(name: UIElementFormInputProps, first_skill: UIElementFormSkillProps):
+        print(name)
+        print(first_skill)
+
+    def view(self) -> Self:
         # Form container on the left
         form_container = Frame(self)
-        UIViewForm.input(form_container, "Name")
-        UIViewForm.skill(form_container)
+        name = UIElementFormInput(form_container, "Name").view()
+        first_skill = UIElementFormSkill(form_container, "First Skill").view()
         UIViewForm.skill(form_container)
 
         Button(
             form_container,
             text="Create Race Card",
-            command=lambda: print("Create class door Card"),
+            command=lambda: ClassDoorTab.create(name.props, first_skill.props),
         ).pack()
         # place the container within the tab
         form_container.grid(row=0, column=0, sticky="nsew")
@@ -31,6 +44,8 @@ class ClassDoorTab(UIContainerGridHorizontal):
         # place the container within the tab
         image_container.grid(row=0, column=1, sticky="nsew")
 
+        return self
+
 
 class RaceDoorTab(UIContainerGridHorizontal):
     def __init__(self, master: Misc):
@@ -38,7 +53,7 @@ class RaceDoorTab(UIContainerGridHorizontal):
 
         # Form container on the left
         form_container = Frame(self)
-        UIViewForm.input(form_container, "Name")
+        name = UIElementFormInput(form_container, "Name").view()
         UIViewForm.skill(form_container)
         UIViewForm.skill(form_container)
 
@@ -64,8 +79,7 @@ class MonsterDoorTab(UIContainerGridHorizontal):
 
         # Form container on the left
         form_container = Frame(self)
-        UIViewForm.input(form_container, "Name")
-        UIViewForm.input(form_container, "Description", "Card longer text.")
+        name = UIElementFormInput(form_container, "Name").view()
         Button(
             form_container,
             text="Create Door Card",
@@ -88,8 +102,7 @@ class MonsterEnhancerDoorTab(UIContainerGridHorizontal):
 
         # Form container on the left
         form_container = Frame(self)
-        UIViewForm.input(form_container, "Name")
-        UIViewForm.input(form_container, "Description", "Card longer text.")
+        name = UIElementFormInput(form_container, "Name").view()
         Button(
             form_container,
             text="Create Door Card",
@@ -110,8 +123,9 @@ class DoorTab(Notebook):
     def __init__(self, master: Misc):
         super().__init__(master)
 
+    def view(self) -> Self:
         race_tab = RaceDoorTab(self)
-        class_tab = ClassDoorTab(self)
+        class_tab = ClassDoorTab(self).view()
         monster_tab = MonsterDoorTab(self)
         monster_enhancer_tab = MonsterEnhancerDoorTab(self)
 
@@ -122,11 +136,18 @@ class DoorTab(Notebook):
 
         self.pack(expand=True, fill="both")
 
+        return self
 
-class TreasureTab(UIContainerGrid):
-    def __init__(self, master: Misc, rows: int, columns: int):
-        super().__init__(master, rows, columns)
 
+class TreasureTab(UIContainerGridHorizontal):
+    def __init__(self, master: Misc):
+        super().__init__(master)
+
+    @staticmethod
+    def create(name: str, description: str):
+        print(name, description)
+
+    def view(self) -> Self:
         # Form container on the left
         form_container = Frame(self)
         name = UIElementFormInput(form_container, "Name").view()
@@ -138,7 +159,9 @@ class TreasureTab(UIContainerGrid):
         Button(
             form_container,
             text="Create Treasure Card",
-            command=lambda: print(name.props.get("input"), description.props),
+            command=lambda: TreasureTab.create(
+                name.props.get("input"), description.props.get("input")
+            ),
         ).pack()
         # place the container within the tab
         form_container.grid(row=0, column=0, sticky="nsew")
@@ -150,14 +173,16 @@ class TreasureTab(UIContainerGrid):
         # place the container within the tab
         image_container.grid(row=0, column=1, sticky="nsew")
 
+        return self
+
 
 class Cards(Notebook):
     def __init__(self, master: Misc):
         super().__init__(master)
 
         # door card type
-        door_tab = DoorTab(self)
-        treasure_tab = TreasureTab(self, 1, 2)
+        door_tab = DoorTab(self).view()
+        treasure_tab = TreasureTab(self).view()
 
         # add both tabs
         self.add(door_tab, text="Door Cards")
