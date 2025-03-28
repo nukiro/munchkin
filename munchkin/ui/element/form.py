@@ -59,11 +59,22 @@ class UIElementFormSkill(Frame):
         super().__init__(master, pady=space)
 
         self._label: Label = Label(self, text=label)
-        self._header = UIElementFormInput(self, "Header")
+        self._header = UIElementFormInput(
+            self,
+            "Header",
+            "It may be the only text in the card or a title for a longer description.",
+            0,
+        )
+        self._description = UIElementFormInput(
+            self, "Description", "If there is more text than the header.", 0
+        )
+        self._action = UIElementFormInput(self, "Action", "From the catalog.", 0)
 
     def view(self) -> Self:
         self._label.pack(fill="x")
         self._header.view()
+        self._description.view()
+        self._action.view()
 
         self.pack(fill="x")
 
@@ -73,8 +84,8 @@ class UIElementFormSkill(Frame):
     def props(self) -> UIElementFormSkillProps:
         return dict(
             header=self._header.props.get("input"),
-            description="This is the description",
-            action="this is the action",
+            description=self._description.props.get("input"),
+            action=self._action.props.get("input"),
         )
 
 

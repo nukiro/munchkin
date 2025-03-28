@@ -8,7 +8,6 @@ from munchkin.ui.element.form import (
     UIElementFormInputProps,
     UIElementFormSkill,
     UIElementFormSkillProps,
-    UIViewForm,
 )
 from munchkin.ui.element.image import UIViewImage
 
@@ -27,7 +26,7 @@ class ClassDoorTab(UIContainerGridHorizontal):
         form_container = Frame(self)
         name = UIElementFormInput(form_container, "Name").view()
         first_skill = UIElementFormSkill(form_container, "First Skill").view()
-        UIViewForm.skill(form_container)
+        second_skill = UIElementFormSkill(form_container, "First Skill").view()
 
         Button(
             form_container,
@@ -54,8 +53,8 @@ class RaceDoorTab(UIContainerGridHorizontal):
         # Form container on the left
         form_container = Frame(self)
         name = UIElementFormInput(form_container, "Name").view()
-        UIViewForm.skill(form_container)
-        UIViewForm.skill(form_container)
+        first_skill = UIElementFormSkill(form_container, "First Skill").view()
+        second_skill = UIElementFormSkill(form_container, "First Skill").view()
 
         Button(
             form_container,
