@@ -1,12 +1,14 @@
 from tkinter import Tk
-from tkinter.ttk import Frame, Label
 from typing import Optional
 
 # from clients.frontend.console.views.cards import Cards
 # from clients.frontend.console.views.menu import Menu
+from clients.frontend.console.views.account import AccountView
+from clients.frontend.console.views.cards import Cards
+from clients.frontend.console.views.games import GamesView
 from munchkin.base.settings import Settings as Base
 from munchkin.base.settings import build_settings as build_base
-from munchkin.ui.views.tab import TabScreenView, TabView
+from munchkin.ui.views.tab import TabView
 
 
 class Settings(Base):
@@ -37,28 +39,27 @@ class Application(Tk):
 
         window = TabView(self)
 
-        account_view = Frame(window.screen)
-        Label(account_view, background="green", text="This is account label").pack(
-            expand=True, fill="both"
+        window.add(
+            dict(label="Account", key="account", content=AccountView(window.screen))
         )
-        account: TabScreenView = dict(
-            label="Account", key="account", content=account_view
-        )
-        window.add(account)
 
-        cards_view = Frame(window.screen)
-        Label(cards_view, background="red", text="This is cards label").pack(
-            expand=True, fill="both"
-        )
-        cards: TabScreenView = dict(label="Cards", key="cards", content=cards_view)
-        window.add(cards)
+        window.add(dict(label="Cards", key="cards", content=Cards(window.screen)))
 
-        games_view = Frame(window.screen)
-        Label(games_view, background="yellow", text="This is games label").pack(
-            expand=True, fill="both"
-        )
-        games: TabScreenView = dict(label="Games", key="games", content=games_view)
-        window.add(games)
+        window.add(dict(label="Games", key="games", content=GamesView(window.screen)))
+
+        # cards_view = Frame(window.screen)
+        # Label(cards_view, background="red", text="This is cards label").pack(
+        #     expand=True, fill="both"
+        # )
+        # cards: TabScreenView = dict(label="Cards", key="cards", content=cards_view)
+        # window.add(cards)
+
+        # games_view = Frame(window.screen)
+        # Label(games_view, background="yellow", text="This is games label").pack(
+        #     expand=True, fill="both"
+        # )
+        # games: TabScreenView = dict(label="Games", key="games", content=games_view)
+        # window.add(games)
 
         window.view("account")
 

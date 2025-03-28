@@ -2,6 +2,8 @@ from tkinter import Misc
 from tkinter.ttk import Button, Frame
 from typing import Callable, List, Self, TypedDict
 
+from munchkin.ui.views.view import View
+
 
 class TabScreenView(TypedDict):
     label: str
@@ -12,23 +14,30 @@ class TabScreenView(TypedDict):
 class _TabScreenView(Frame):
     def __init__(self, master: Misc):
         super().__init__(master)
-        self._screen: dict[str, Frame] = dict()
+        # screen will be within the screen frame
+        # and will be shown and hiden when menu buttons are clicked
+        self._screen: dict[str, View] = dict()
 
-    def add(self, key: str, screen: Frame):
+    def add(self, key: str, screen: View):
         self._screen[key] = screen
 
     def _hide_all(self):
         # get all frames store in screen dictionary
         for screen in self._screen.values():
-            screen.pack_forget()
+            screen.hide_view()
 
     def show(self, key: str):
         self._hide_all()
         # get screen which will be shown and pack
         screen = self._screen.get(key)
-        screen.pack(expand=True, fill="both")
+        screen.show_view()
 
     def view(self, key: str) -> Self:
+        # initialy pack/grid/place all views
+        for screen in self._screen.values():
+            screen.build_view()
+
+        # then show which initial screen was indicated
         # initial screen which will be shown as launch
         self.show(key)
 

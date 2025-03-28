@@ -10,6 +10,7 @@ from munchkin.ui.element.form import (
     UIElementFormSkillProps,
 )
 from munchkin.ui.element.image import UIViewImage
+from munchkin.ui.views.view import View
 
 
 class ClassDoorTab(UIContainerGridHorizontal):
@@ -175,7 +176,7 @@ class TreasureTab(UIContainerGridHorizontal):
         return self
 
 
-class Cards(Notebook):
+class Cards(View, Notebook):
     def __init__(self, master: Misc):
         super().__init__(master)
 
@@ -187,5 +188,12 @@ class Cards(Notebook):
         self.add(door_tab, text="Door Cards")
         self.add(treasure_tab, text="Treasure Cards")
 
+    def build_view(self):
         # pack to fill the whole frame
         self.pack(expand=True, fill="both")
+
+    def show_view(self):
+        self.pack(expand=True, fill="both")
+
+    def hide_view(self):
+        self.pack_forget()
