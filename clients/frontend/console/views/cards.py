@@ -176,9 +176,10 @@ class TreasureTab(UIContainerGridHorizontal):
         return self
 
 
-class Cards(View, Notebook):
-    def __init__(self, master: Misc):
+class CardsView(View, Notebook):
+    def __init__(self, title: str, master: Misc):
         super().__init__(master)
+        self._title = title
 
         # door card type
         door_tab = DoorTab(self).view()
@@ -187,6 +188,10 @@ class Cards(View, Notebook):
         # add both tabs
         self.add(door_tab, text="Door Cards")
         self.add(treasure_tab, text="Treasure Cards")
+
+    @property
+    def title(self):
+        return self._title
 
     def build_view(self):
         # pack to fill the whole frame

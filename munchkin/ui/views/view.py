@@ -3,6 +3,11 @@ from typing import Self
 
 
 class View(ABC):
+    @property
+    @abstractmethod
+    def title(self) -> str:
+        pass
+
     @abstractmethod
     def build_view(self) -> Self:
         pass

@@ -4,7 +4,7 @@ from typing import Optional
 # from clients.frontend.console.views.cards import Cards
 # from clients.frontend.console.views.menu import Menu
 from clients.frontend.console.views.account import AccountView
-from clients.frontend.console.views.cards import Cards
+from clients.frontend.console.views.cards import CardsView
 from clients.frontend.console.views.games import GamesView
 from munchkin.base.settings import Settings as Base
 from munchkin.base.settings import build_settings as build_base
@@ -33,19 +33,23 @@ class Application(Tk):
         self.geometry(f"{settings.get('width')}x{settings.get('height')}")
         self.minsize(settings.get("width"), settings.get("height"))
 
-        # # Main Window UI
-        # self.configure(menu=Menu(self))
-        # self.cards = Cards(self)
-
         window = TabView(self)
 
         window.add(
-            dict(label="Account", key="account", content=AccountView(window.screen))
+            dict(
+                label="Account",
+                key="account",
+                content=AccountView("Account", window.screen),
+            )
         )
 
-        window.add(dict(label="Cards", key="cards", content=Cards(window.screen)))
+        window.add(
+            dict(label="Cards", key="cards", content=CardsView("Cards", window.screen))
+        )
 
-        window.add(dict(label="Games", key="games", content=GamesView(window.screen)))
+        window.add(
+            dict(label="Games", key="games", content=GamesView("Games", window.screen))
+        )
 
         # cards_view = Frame(window.screen)
         # Label(cards_view, background="red", text="This is cards label").pack(

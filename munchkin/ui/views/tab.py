@@ -26,12 +26,6 @@ class _TabScreenView(Frame):
         for screen in self._screen.values():
             screen.hide_view()
 
-    def show(self, key: str):
-        self._hide_all()
-        # get screen which will be shown and pack
-        screen = self._screen.get(key)
-        screen.show_view()
-
     def view(self, key: str) -> Self:
         # initialy pack/grid/place all views
         for screen in self._screen.values():
@@ -45,6 +39,12 @@ class _TabScreenView(Frame):
         self.place(x=100, rely=0, relheight=1, relwidth=1)
 
         return self
+
+    def show(self, key: str):
+        self._hide_all()
+        # get screen which will be shown and pack
+        screen = self._screen.get(key)
+        screen.show_view()
 
 
 class _TabMenuView(Frame):

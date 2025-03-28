@@ -5,10 +5,15 @@ from munchkin.ui.views.view import View
 
 
 class AccountView(View, Frame):
-    def __init__(self, master: Misc):
+    def __init__(self, title: str, master: Misc):
         super().__init__(master)
+        self._title = title
 
-        self._label = Label(self, text="Account Section")
+        self._label = Label(self, text=f"{title} Section")
+
+    @property
+    def title(self) -> str:
+        return self._title
 
     def build_view(self) -> Self:
         self._label.pack(expand=True, fill="both")
