@@ -39,7 +39,7 @@ class ClassDoorTab(UIContainerGridHorizontal):
         # Image container on the right
         image_container = Frame(self)
         # load treasure example card
-        UIViewImage.base(image_container, "example_class_card.jpg")
+        UIViewImage.base(image_container, "static/img/example_class_card.jpg")
         # place the container within the tab
         image_container.grid(row=0, column=1, sticky="nsew")
 
@@ -67,7 +67,7 @@ class RaceDoorTab(UIContainerGridHorizontal):
         # Image container on the right
         image_container = Frame(self)
         # load treasure example card
-        UIViewImage.base(image_container, "card.jpg")
+        UIViewImage.base(image_container, "static/img/card.jpg")
         # place the container within the tab
         image_container.grid(row=0, column=1, sticky="nsew")
 
@@ -90,7 +90,7 @@ class MonsterDoorTab(UIContainerGridHorizontal):
         # Image container on the right
         image_container = Frame(self)
         # load treasure example card
-        UIViewImage.base(image_container, "example_door_card.jpg")
+        UIViewImage.base(image_container, "static/img/example_door_card.jpg")
         # place the container within the tab
         image_container.grid(row=0, column=1, sticky="nsew")
 
@@ -113,7 +113,7 @@ class MonsterEnhancerDoorTab(UIContainerGridHorizontal):
         # Image container on the right
         image_container = Frame(self)
         # load treasure example card
-        UIViewImage.base(image_container, "card.jpg")
+        UIViewImage.base(image_container, "static/img/card.jpg")
         # place the container within the tab
         image_container.grid(row=0, column=1, sticky="nsew")
 
@@ -168,7 +168,7 @@ class TreasureTab(UIContainerGridHorizontal):
         # Image container on the right
         image_container = Frame(self)
         # load treasure example card
-        UIViewImage.base(image_container, "example_treasure_card.jpg")
+        UIViewImage.base(image_container, "static/img/example_treasure_card.jpg")
         # place the container within the tab
         image_container.grid(row=0, column=1, sticky="nsew")
 

@@ -1,8 +1,8 @@
 from tkinter import Tk
 from typing import Optional
 
-from clients.frontend.console.cards import Cards
-from clients.frontend.console.menu import Menu
+from clients.frontend.console.views.cards import Cards
+from clients.frontend.console.views.menu import Menu
 from munchkin.base.settings import Settings as Base
 from munchkin.base.settings import build_settings as build_base
 
