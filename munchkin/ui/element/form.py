@@ -96,25 +96,27 @@ class UIElementFormInput(Frame):
 
         # View
         self._label = Label(self, text=label)
-        self._help_label_text = help
-
-    def view(self) -> Self:
-        # some text as a header indicating input variable
-        self._label.pack(fill="x")
-        # input, props variable will be assigned
-        entry = Entry(self, textvariable=self._props_entry)
-        # in case some helping text is passed
-        # it will place below the entry text input
-        if self._help_label_text:
-            entry.pack_configure(pady=2)
-        entry.pack(fill="x")
-
-        if self._help_label_text:
+        self._entry = Entry(self, textvariable=self._props_entry)
+        self._help = (
             Label(
                 self,
-                text=self._help_label_text,
+                text=help,
                 foreground="grey",
-            ).pack(fill="x")
+            )
+            if help
+            else None
+        )
+
+    def view(self) -> Self:
+        self._label.pack(fill="x")
+        # in case some helping text is passed
+        # it will place below the entry text input
+        if self._help:
+            self._entry.pack_configure(pady=2)
+        self._entry.pack(fill="x")
+
+        if self._help:
+            self._help.pack(fill="x")
 
         self.pack(fill="x")
 
