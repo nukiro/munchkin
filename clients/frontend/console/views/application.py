@@ -1,6 +1,6 @@
 from tkinter import Misc, Tk
 from tkinter.ttk import Button, Frame, Label
-from typing import List, Optional, Self, TypedDict
+from typing import Callable, List, Optional, Self, TypedDict
 
 # from clients.frontend.console.views.cards import Cards
 # from clients.frontend.console.views.menu import Menu
@@ -22,83 +22,102 @@ def _build_settings() -> Settings:
     return settings
 
 
-class TabScreenViewType(TypedDict):
-    name: str
+class TabScreenView(TypedDict):
+    label: str
     key: str
     content: Frame
 
 
-class TabScreenView(Frame):
+class _TabScreenView(Frame):
     def __init__(self, master: Misc):
         super().__init__(master)
-        self._screens: dict[str, Frame] = dict()
+        self._screen: dict[str, Frame] = dict()
 
     def add(self, key: str, screen: Frame):
-        self._screens[key] = screen
+        self._screen[key] = screen
 
     def _hide_all(self):
-        for screen in self._screens.values():
+        # get all frames store in screen dictionary
+        for screen in self._screen.values():
             screen.pack_forget()
 
     def show(self, key: str):
         self._hide_all()
-        screen: Frame = self._screens.get(key)
+        # get screen which will be shown and pack
+        screen = self._screen.get(key)
         screen.pack(expand=True, fill="both")
 
     def view(self, key: str) -> Self:
+        # initial screen which will be shown as launch
         self.show(key)
+
+        # screen frame main window position
         self.place(x=100, rely=0, relheight=1, relwidth=1)
+
         return self
 
-    @property
-    def screens(self) -> dict[str, Frame]:
-        return self._screens
 
-
-class TabMenuView(Frame):
-    def __init__(self, master: Misc, screens: TabScreenView):
+class _TabMenuView(Frame):
+    def __init__(self, master: Misc, show_method: Callable):
         super().__init__(master)
-        self._screens = screens
-        # self._buttons: List[Button] = [
-        #     Button(
-        #         self,
-        #         text=screen.get("name"),
-        #         command=lambda: screen_view.show(screen.get("key")),
-        #     )
-        #     for screen in screens
-        # ]
+        self._screen_show_method = show_method
         self._buttons: List[Button] = []
 
-    def add(self, name: str, key: str):
+    def add(
+        self,
+        key: str,
+        label: str,
+    ):
+        # create button with show/hide handle from screen
         self._buttons.append(
-            Button(self, text=name, command=lambda: self._screens.show(key))
+            Button(self, text=label, command=lambda: self._screen_show_method(key))
         )
 
     def view(self) -> Self:
-        for button in self._buttons:
-            button.pack(fill="x")
+        # pack all buttons (one per screen)
+        for option in self._buttons:
+            option.pack(fill="x")
 
+        # place button list from the main window
         self.place(relx=0, rely=0, relheight=1, width=100)
+
         return self
 
 
 class TabView:
     def __init__(self, master: Misc):
-        self._screens = TabScreenView(master)
-        self._menu = TabMenuView(master, self._screens)
-
-    def add(self, screen: TabScreenViewType):
-        self._screens.add(screen.get("key"), screen.get("content"))
-        self._menu.add(screen.get("name"), screen.get("key"))
-
-    def view(self) -> Self:
-        self._menu.view()
-        self._screens.view("account")
-        return self
+        # holds all frame will be shown
+        # screen view must be created first as it is injected into the menu
+        # button within the options menu attribute needs
+        # it reference to use show/hide methods.
+        self._screen = _TabScreenView(master)
+        # holds buttons to switch between frames
+        # the screen method which handle how screens are shown or hiden
+        # is injected to hold its reference
+        self._menu = _TabMenuView(master, self._screen.show)
 
     @property
-    def content_frame(self) -> Frame:
-        return self._screens
+    def screen(self) -> Frame:
+        return self._screen
+
+    @property
+    def menu(self) -> Frame:
+        return self._menu
+
+    def add(self, screen: TabScreenView):
+        """
+        Add a new screen to the tab view.
+        """
+        # update both views the menu and the screen
+        self._screen.add(screen.get("key"), screen.get("content"))
+        self._menu.add(screen.get("key"), screen.get("label"))
+
+    def view(self, key: str) -> Self:
+        self._menu.view()
+        # indicated key will be the screen shown at launch
+        self._screen.view(key)
+
+        return self
 
 
 class Application(Tk):
@@ -115,30 +134,30 @@ class Application(Tk):
 
         window = TabView(self)
 
-        account_view = Frame(window.content_frame)
+        account_view = Frame(window.screen)
         Label(account_view, background="green", text="This is account label").pack(
             expand=True, fill="both"
         )
-        account: TabScreenViewType = dict(
-            name="Account", key="account", content=account_view
+        account: TabScreenView = dict(
+            label="Account", key="account", content=account_view
         )
         window.add(account)
 
-        cards_view = Frame(window.content_frame)
+        cards_view = Frame(window.screen)
         Label(cards_view, background="red", text="This is cards label").pack(
             expand=True, fill="both"
         )
-        cards: TabScreenViewType = dict(name="Cards", key="cards", content=cards_view)
+        cards: TabScreenView = dict(label="Cards", key="cards", content=cards_view)
         window.add(cards)
 
-        games_view = Frame(window.content_frame)
+        games_view = Frame(window.screen)
         Label(games_view, background="yellow", text="This is games label").pack(
             expand=True, fill="both"
         )
-        games: TabScreenViewType = dict(name="Games", key="games", content=games_view)
+        games: TabScreenView = dict(label="Games", key="games", content=games_view)
         window.add(games)
 
-        window.view()
+        window.view("account")
 
         # Menu Bar
         # menu = Frame(self)
