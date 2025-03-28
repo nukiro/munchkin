@@ -35,21 +35,9 @@ class Application(Tk):
 
         window = TabView(self)
 
-        window.add(
-            dict(
-                label="Account",
-                key="account",
-                content=AccountView("Account", window.screen),
-            )
-        )
-
-        window.add(
-            dict(label="Cards", key="cards", content=CardsView("Cards", window.screen))
-        )
-
-        window.add(
-            dict(label="Games", key="games", content=GamesView("Games", window.screen))
-        )
+        window.add(AccountView("Account", window.screen))
+        window.add(CardsView("Cards", window.screen))
+        window.add(GamesView("Games", window.screen))
 
         # cards_view = Frame(window.screen)
         # Label(cards_view, background="red", text="This is cards label").pack(
@@ -65,7 +53,7 @@ class Application(Tk):
         # games: TabScreenView = dict(label="Games", key="games", content=games_view)
         # window.add(games)
 
-        window.view("account")
+        window.view("Account")
 
         # Menu Bar
         # menu = Frame(self)

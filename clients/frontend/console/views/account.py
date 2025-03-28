@@ -12,7 +12,7 @@ class AccountView(View, Frame):
         self._label = Label(self, text=f"{title} Section")
 
     @property
-    def title(self) -> str:
+    def key(self) -> str:
         return self._title
 
     def build_view(self) -> Self:

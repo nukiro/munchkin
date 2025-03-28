@@ -190,7 +190,7 @@ class CardsView(View, Notebook):
         self.add(treasure_tab, text="Treasure Cards")
 
     @property
-    def title(self):
+    def key(self):
         return self._title
 
     def build_view(self):

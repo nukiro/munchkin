@@ -5,7 +5,7 @@ from typing import Self
 class View(ABC):
     @property
     @abstractmethod
-    def title(self) -> str:
+    def key(self) -> str:
         pass
 
     @abstractmethod

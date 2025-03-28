@@ -18,8 +18,8 @@ class _TabScreenView(Frame):
         # and will be shown and hiden when menu buttons are clicked
         self._screen: dict[str, View] = dict()
 
-    def add(self, key: str, screen: View):
-        self._screen[key] = screen
+    def add(self, view: View):
+        self._screen[view.key] = view
 
     def _hide_all(self):
         # get all frames store in screen dictionary
@@ -56,11 +56,10 @@ class _TabMenuView(Frame):
     def add(
         self,
         key: str,
-        label: str,
     ):
         # create button with show/hide handle from screen
         self._buttons.append(
-            Button(self, text=label, command=lambda: self._screen_show_method(key))
+            Button(self, text=key, command=lambda: self._screen_show_method(key))
         )
 
     def view(self) -> Self:
@@ -94,13 +93,14 @@ class TabView:
     def menu(self) -> Frame:
         return self._menu
 
-    def add(self, screen: TabScreenView):
+    def add(self, view: View):
         """
         Add a new screen to the tab view.
         """
+        # view title will be set as key
         # update both views the menu and the screen
-        self._screen.add(screen.get("key"), screen.get("content"))
-        self._menu.add(screen.get("key"), screen.get("label"))
+        self._screen.add(view)
+        self._menu.add(view.key)
 
     def view(self, key: str) -> Self:
         self._menu.view()
